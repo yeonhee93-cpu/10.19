@@ -63,6 +63,14 @@ img{display:block;max-width:100%}
 .lead{max-width:760px;margin:0 auto;color:var(--muted);font-size:clamp(15px,1.6vw,17px);word-break:keep-all}
 .facts{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;margin-top:36px;font-size:13px;color:var(--muted)}
 .facts b{color:var(--ink);font-weight:500;margin-right:6px}
+.facts i{font-style:normal}
+@media (max-width:640px){
+  .facts{display:grid;grid-template-columns:auto auto;justify-content:center;gap:10px 14px;text-align:left;font-size:13.5px;margin-top:30px}
+  .facts span{display:contents}
+  .facts b{margin:0;white-space:nowrap}
+  .facts i{word-break:keep-all}
+  .facts .paren{display:block;white-space:nowrap;margin-top:2px}
+}
 [data-theme=maison] .hero h1{font-weight:300;letter-spacing:.1em}
 [data-theme=maison] .hero .la{font-style:normal;text-transform:uppercase;letter-spacing:.4em;font-size:.18em;margin-top:22px}
 [data-theme=maison] .eyebrow{color:var(--muted);font-family:var(--body);font-size:11px;letter-spacing:.4em}
@@ -580,7 +588,7 @@ const EXHIBITION = {
   title:    '한바닥, 오래 남을 이야기',
   titleLa:  '',
   lead:     '청소년의 시선으로 여순 10·19를 표현한 작품입니다. 한바닥에 담기에는 너무 긴 이야기여서, 짧은 글에 그림의 언어로 숨결을 불어넣었습니다. 미처 다 담지 못한 이야기는 담벼락 너머에 남겨 두었습니다.',
-  facts:    [['기간','2026. 11. 9.(월) ~ 11. 20.(금)'],['장소','순천시청 서관 1층 (민원실과 북카페 사이)'],['참여','3학년']]
+  facts:    [['기간','2026. 11. 9.(월) ~ 11. 20.(금)'],['장소','순천시청 서관 1층 (민원실과 북카페 사이)'],['참여','순천별량중학교 3학년 학생들']]
 };
 
 /* =========================================================
@@ -1242,7 +1250,7 @@ $('eyebrow').innerHTML = EXHIBITION.eyebrow.split(' — ').map(x => `<span class
 $('title').textContent = EXHIBITION.title;
 $('titleLa').textContent = EXHIBITION.titleLa;
 $('lead').innerHTML = sentences(EXHIBITION.lead);
-$('facts').innerHTML = EXHIBITION.facts.map(([k,v])=>`<span><b>${esc(k)}</b>${esc(v)}</span>`).join('') + `<span><b>작품</b>${WORKS.length}점</span>`;
+$('facts').innerHTML = EXHIBITION.facts.map(([k,v])=>`<span><b>${esc(k)}</b><i>${esc(v).replace(/\s*(\([^)]*\s[^)]*\))/, ' <span class="paren">$1</span>')}</i></span>`).join('');
 $('footLeft').textContent = `${EXHIBITION.eyebrow} · Online Gallery`;
 document.title = `${EXHIBITION.title} — 온라인 전시관`;
 

@@ -95,7 +95,11 @@ img{display:block;max-width:100%}
 .part-no{font-family:var(--latin);font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
 .part-title{font-family:var(--display);font-weight:500;font-size:clamp(28px,4.2vw,46px);line-height:1.25;margin:14px 0 22px;word-break:keep-all}
 .part-desc{color:var(--muted);font-size:clamp(14.5px,1.5vw,16px);line-height:1.9;word-break:keep-all}
-.part-desc .sent{display:block;text-wrap:balance}
+.part-desc .sent,.anth-desc .sent{display:block;text-wrap:balance}
+.anth-desc .sent + .sent{margin-top:6px}
+h1,h2,h3,.part-title,.sub-title,.lb-title,.v-title{text-wrap:balance}
+p,.v-note,.g-text,.lb-desc,.vn-list p,.gadmin li p{text-wrap:pretty}
+.sub-sub{margin-top:-4px;font-size:14px;color:var(--muted);letter-spacing:.02em}
 .part-desc .sent + .sent{margin-top:2px}
 .nm{white-space:nowrap}
 .part-count{margin-top:22px;font-size:12px;letter-spacing:.14em;color:var(--muted)}
@@ -282,7 +286,7 @@ footer{max-width:1280px;margin:0 auto;padding-block:40px;border-top:1px solid va
 .tune b{font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
 .rule{height:1px;background:var(--line);margin:28px 0}
 .poem{font-family:var(--display);font-size:clamp(17px,1.6vw,20px);line-height:2.05;word-break:keep-all}
-.poem span{display:block;transition:opacity .6s var(--ease),color .6s var(--ease),transform .6s var(--ease);transform-origin:left center}
+.poem span{display:block;text-wrap:balance;padding-left:1.1em;text-indent:-1.1em;transition:opacity .6s var(--ease),color .6s var(--ease),transform .6s var(--ease);transform-origin:left center}
 .is-live .poem span{opacity:.32}
 .is-live .poem span.past{opacity:.6}
 .is-live .poem span.on{opacity:1;color:var(--accent)}
@@ -362,6 +366,13 @@ body.lock .mp{transform:translate(-50%,170%)}
   .v-no{font-size:44px}
   .v-title{margin-top:8px}
   .poem{font-size:17px;line-height:1.95}
+}
+.m-br{display:none}
+.mp:not(.show){visibility:hidden}
+@media (max-width:640px){
+  .m-br{display:inline}
+  .t-sep{display:none}
+  .v-note,.lb-desc{word-break:normal;overflow-wrap:break-word}
 }
 @media (max-width:540px){
   .chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:2px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -1039,7 +1050,9 @@ const EXTRA = {
     ]
   },
   anthology: {
-    title: '졸업생 시화집 『별빛은 오랜 밤을 깨우고』',
+    title: '졸업생 시화집',
+    book:  '별빛은 오랜 밤을 깨우고',
+    sub:   '시와 그림으로 만난 여순 10·19',
     shop: {
       name: '나무들의 밤',
       kind: '순천 독립서점',
@@ -1048,7 +1061,7 @@ const EXTRA = {
       addr: '전남광주 순천시 황금2길 14-1',
       map:  'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('나무들의 밤 순천시 황금2길 14-1')
     },
-    desc:  '『별빛은 오랜 밤을 깨우고 — 시와 그림으로 만난 여순 10·19』는 순천별량중학교 학생들이 직접 쓰고 그린 시와 그림을 엮은 시화집입니다. 오랜 세월 침묵 속에 묻혀 있던 지역의 아픔을, 학생들은 작은 별빛 같은 시 한 편 한 편으로 기억하고자 했습니다.'
+    desc:  '『별빛은 오랜 밤을 깨우고』는 순천별량중학교 학생들이 직접 쓰고 그린 시와 그림을 엮은 시화집입니다. 오랜 세월 침묵 속에 묻혀 있던 지역의 아픔을, 학생들은 작은 별빛 같은 시 한 편 한 편으로 기억하고자 했습니다.'
   }
 };
 
@@ -1143,7 +1156,7 @@ const ANTH = {key:'anthology', title: EXTRA.anthology.title, cap:'', desc: EXTRA
 
 /* ---------- 상단 문구 ---------- */
 $('brand').textContent = EXHIBITION.school;
-$('eyebrow').textContent = EXHIBITION.eyebrow;
+$('eyebrow').innerHTML = EXHIBITION.eyebrow.split(' — ').map(x => `<span class="nm">${esc(x)}</span>`).join('<span class="t-sep"> — </span><br class="m-br">');
 $('title').textContent = EXHIBITION.title;
 $('titleLa').textContent = EXHIBITION.titleLa;
 $('lead').innerHTML = sentences(EXHIBITION.lead);
@@ -1187,7 +1200,8 @@ function renderGrid(){
   syncCards();
 }
 function sentences(t){
-  return (t||'').split(/(?<=[.?!])\s+/).filter(Boolean).map(x => `<span class="sent">${esc(x)}</span>`).join('');
+  const GLUE = /(여순 10·19(?:의|를|가|에|로)?|1980년 5월|학생 작가(?:들에게|들의|에게)?|시와 그림(?:을|으로|의)?|한 편 한 편(?:으로)?|오월 걸개그림(?:\s?10점)?|순천별량중학교|치유되지 않은 채|쓰이지 않은|짧은 글에|너무 긴|작은 별빛 같은 시)/g;
+  return (t||'').split(/(?<=[.?!])\s+/).filter(Boolean).map(x => `<span class="sent">${esc(x).replace(GLUE, '<span class="nm">$1</span>').replace(/([『「‘'][^』」’']{1,14}[』」’'][가-힣]{0,2})/g, '<span class="nm">$1</span>')}</span>`).join('');
 }
 function names(t){
   return (t||'').split('·').map(x => `<span class="nm">${esc(x.trim())}</span>`).join('<span class="dot"> · </span>');
@@ -1197,7 +1211,7 @@ function extraHTML(){
   return `<section class="part extra" id="part-extra" aria-labelledby="pt-extra">
     <header class="part-head reveal">
       <p class="part-no">Special</p>
-      <h2 class="part-title" id="pt-extra">특별 공간 · ${esc(EXTRA.title)}</h2>
+      <h2 class="part-title" id="pt-extra"><span class="nm">특별 공간</span><span class="t-sep"> · </span><br class="m-br"><span class="nm">오월 걸개그림과</span> <span class="nm">졸업생 시화집</span></h2>
       ${EXTRA.desc ? `<p class="part-desc">${sentences(EXTRA.desc)}</p>` : ''}
     </header>
     <div class="sub-head reveal">
@@ -1213,11 +1227,11 @@ function extraHTML(){
         </button>
       </article>`).join('')}
     </div>
-    <div class="sub-head reveal anth-head"><h3 class="sub-title">${esc(EXTRA.anthology.title)}</h3></div>
+    <div class="sub-head reveal anth-head"><h3 class="sub-title"><span class="nm">${esc(EXTRA.anthology.title)}</span> <span class="nm">『${esc(EXTRA.anthology.book)}』</span></h3><p class="sub-sub">${esc(EXTRA.anthology.sub)}</p></div>
     <div class="anthology reveal">
       <button class="anth-img" type="button" data-lb="anth" aria-label="${esc(ANTH.title)} 크게 보기"><img src="${ANTH.src}" data-x="anthology" alt="${esc(ANTH.title)} 표지"></button>
       <div class="anth-text">
-        <p class="anth-desc">${esc(EXTRA.anthology.desc)}</p>
+        <p class="anth-desc">${sentences(EXTRA.anthology.desc)}</p>
         ${EXTRA.anthology.shop ? (sh => `<div class="shop">
           <p class="shop-label">구입처</p>
           <p class="shop-name">${esc(sh.kind)} <b>「${esc(sh.name)}」</b></p>

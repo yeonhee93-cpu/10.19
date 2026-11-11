@@ -744,7 +744,7 @@ const EXHIBITION = {
   eyebrow:  'Yeosu · Suncheon 10·19 — Poetry Exhibition',
   title:    '한바닥, 오래 남을 이야기',
   titleLa:  '',
-  lead:     '청소년의 시선으로 여순 10·19를 표현한 작품입니다. 한바닥에 담기에는 너무 긴 이야기여서, 짧은 글에 그림의 언어로 숨결을 불어넣었습니다. 미처 다 담지 못한 이야기는 담벼락 너머에 남겨 두었습니다.',
+  lead:     '순천별량중학교 3학년 학생들이 저마다의 시선으로 여순 10·19를 바라보고 표현한 작품을 모았습니다. 한바닥에 담기에는 너무 긴 이야기여서, 짧은 글에 그림의 언어로 숨결을 불어넣었습니다. 미처 다 담지 못한 이야기는 담벼락 너머에 남겨 두었습니다.',
   facts:    [['기간','2026. 11. 9.(월) ~ 11. 20.(금)'],['장소','순천시청 서관 1층 (민원실과 북카페 사이)'],['참여','순천별량중학교 3학년 학생들']]
 };
 
@@ -1768,7 +1768,21 @@ $('vTune').addEventListener('click', e => {
 /* ---------- 상세 뷰어 ---------- */
 const viewer = $('viewer');
 let cur = null, hideTimer = null;
-function setHash(h){ try{ history.replaceState(null, '', h ? '#'+h : location.pathname + location.search); }catch(e){} }
+/* ---------- 뒤로가기 = 열린 창 닫기 ---------- */
+const BASE_URL = location.pathname + location.search;
+const OV = [];          // 열려 있는 창 순서 (viewer / lb / zoom)
+let skipPop = 0;
+function pushOv(name, url){ try{ history.pushState({ov:name}, '', url || location.href); OV.push(name); }catch(e){} }
+function popOvManual(name){ const i = OV.lastIndexOf(name); if(i < 0) return; const n = OV.length - i; OV.length = i; skipPop += n; history.go(-n); }
+window.addEventListener('popstate', () => {
+  if(skipPop){ skipPop--; return; }
+  const top = OV.pop();
+  if(top === 'zoom') closeZoom(true);
+  else if(top === 'lb') closeLb(true);
+  else if(top === 'viewer') closeViewer(true);
+  else { const n = parseInt(location.hash.slice(1),10); if(n && !cur) openWork(n, true); }
+});
+function setHash(h){ try{ history.replaceState(history.state, '', h ? '#'+h : BASE_URL); }catch(e){} }
 
 function openWork(no){
   const w = WORKS.find(x => x.no === no);
@@ -1794,15 +1808,17 @@ function openWork(no){
   requestAnimationFrame(() => viewer.classList.add('open'));
   document.body.classList.add('lock');
   viewer.querySelector('.v-scroll').scrollTop = 0;
-  setHash(w.no);
+  if(OV.indexOf('viewer') < 0 && !arguments[1]) pushOv('viewer', BASE_URL + '#' + w.no); else setHash(w.no);
   ui();
 }
-function closeViewer(){
+function closeViewer(fromPop){
+  if(!cur) return;
+  if(fromPop !== true){ if(OV.indexOf('lb') > -1) closeLb(true); if(OV.indexOf('zoom') > -1) closeZoom(true); popOvManual('viewer'); }
   viewer.classList.remove('open');
   hideTimer = setTimeout(() => { viewer.hidden = true; }, 400);
   document.body.classList.remove('lock');
   stopAudio();
-  setHash(''); cur = null; ui();
+  if(fromPop !== true && OV.indexOf('viewer') < 0) setHash(''); cur = null; ui();
 }
 function stopAudio(){
   cancelAnimationFrame(P.raf); clearInterval(P.timer); audio.pause();
@@ -1903,9 +1919,10 @@ function openLb(k){
     ${it.voices.length ? `<p class="v-label">함께 그린 학생들의 말</p><ul class="lb-voices">${it.voices.map(v => `<li><b>${esc(v.name)}</b><span>${esc(v.text)}</span></li>`).join('')}</ul>` : ''}`;
   $('lb').scrollTop = 0;
   $('lbPrev').hidden = $('lbNext').hidden = lbIdx === 'anth';
+  if($('lb').hidden) pushOv('lb');
   $('lb').hidden = false; document.body.classList.add('lock');
 }
-function closeLb(){ $('lb').hidden = true; lbIdx = null; if(!cur) document.body.classList.remove('lock'); }
+function closeLb(fromPop){ if($('lb').hidden) return; if(fromPop !== true){ if(OV.indexOf('zoom') > -1) closeZoom(true); popOvManual('lb'); } $('lb').hidden = true; lbIdx = null; if(!cur) document.body.classList.remove('lock'); }
 function stepLb(d){ if(typeof lbIdx === 'number') openLb((lbIdx + d + LB_ITEMS.length) % LB_ITEMS.length); }
 $('lbClose').innerHTML = ICON.close; $('lbPrev').innerHTML = ICON.left; $('lbNext').innerHTML = ICON.right;
 $('lbClose').addEventListener('click', closeLb);
@@ -1919,9 +1936,10 @@ function openZoom(src, alt){
   const z = $('zoom'); z.classList.remove('big'); $('zImg').style.width = '';
   $('zImg').src = src; $('zImg').alt = alt || '';
   $('zHint').textContent = '사진을 누르면 확대돼요';
+  if(z.hidden) pushOv('zoom');
   z.hidden = false; document.body.classList.add('lock');
 }
-function closeZoom(){ $('zoom').hidden = true; if(!cur && lbIdx === null) document.body.classList.remove('lock'); }
+function closeZoom(fromPop){ if($('zoom').hidden) return; if(fromPop !== true) popOvManual('zoom'); $('zoom').hidden = true; if(!cur && lbIdx === null) document.body.classList.remove('lock'); }
 $('zImg').addEventListener('click', e => {
   const z = $('zoom'), img = $('zImg'), sc = $('zScroll');
   if(z.classList.contains('big')){ z.classList.remove('big'); img.style.width = ''; $('zHint').textContent = '사진을 누르면 확대돼요'; return; }
@@ -1958,8 +1976,10 @@ document.addEventListener('keydown', e => {
     else if(e.key === ' '){ e.preventDefault(); if(P.w === cur) toggle(); else { loadTrack(cur, 'poem'); playTrack(); } }
   } else if(e.key === ' ' && P.w){ e.preventDefault(); toggle(); }
 });
-function fromHash(){ const n = parseInt(location.hash.slice(1),10); if(n) openWork(n); else if(cur) closeViewer(); }
-window.addEventListener('hashchange', fromHash);
+function fromHash(){
+  const n = parseInt(location.hash.slice(1),10);
+  if(n){ setHash(''); openWork(n); }   /* QR로 바로 들어와도 뒤로가기를 누르면 전체 목록으로 */
+}
 
 renderChips(); renderGrid(); renderGuest(); ui(); fromHash();
 </script>

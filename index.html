@@ -125,11 +125,52 @@ img{display:block;max-width:100%}
 .anth-desc{color:var(--muted);font-size:clamp(14.5px,1.5vw,16px);line-height:1.9;word-break:keep-all}
 @media (max-width:640px){.anth-text{width:100%}.anthology{grid-template-columns:1fr;justify-items:center;text-align:center}.anth-img{max-width:240px}}
 .guest{max-width:1280px;margin:0 auto;padding-block:clamp(72px,10vw,128px);border-top:1px solid var(--line)}
-.guest-frame{max-width:960px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden}
-.guest-frame iframe{display:block;width:100%;height:min(80vh,760px);border:0}
-.guest-empty{padding:56px 24px;text-align:center;color:var(--muted);font-size:14px}
-.guest-empty:empty{display:none}
-.guest-link{text-align:center;margin-top:20px}
+.gform{max-width:760px;margin:0 auto;padding:clamp(20px,3vw,32px);background:var(--mat);border:1px solid var(--line);box-shadow:var(--card-shadow);border-radius:4px;display:grid;gap:16px}
+.g-field{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+.g-field em{font-style:normal;opacity:.7}
+.g-field textarea,.g-field input,.g-field select{font:inherit;font-size:15.5px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:11px 13px;width:100%;min-width:0}
+.g-field textarea{font-family:var(--display);line-height:1.8;resize:vertical;min-height:120px}
+.g-field textarea:focus,.g-field input:focus,.g-field select:focus{outline:none;border-color:var(--ink)}
+.g-msg{position:relative}
+.g-count{position:absolute;right:10px;bottom:8px;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.g-row{display:grid;grid-template-columns:1fr 1.4fr;gap:14px}
+.g-help{font-size:12.5px;color:var(--muted);line-height:1.7;word-break:keep-all}
+.g-submit{justify-self:center;padding:12px 28px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:14.5px;letter-spacing:.04em}
+.g-submit:disabled{opacity:.5}
+.gwall{max-width:1180px;margin:clamp(48px,6vw,72px) auto 0;columns:4 230px;column-gap:22px}
+.gnote{break-inside:avoid;margin:0 0 22px;padding:22px 20px 16px;background:var(--tint,#fffdf7);border:1px solid rgba(80,60,30,.08);box-shadow:0 1px 2px rgba(60,40,20,.06),0 10px 24px -14px rgba(60,40,20,.28);transform:rotate(var(--tilt,0deg));transition:transform .3s}
+.gnote:hover{transform:rotate(0) translateY(-2px)}
+.gnote.pending{border:1px dashed var(--accent);opacity:.92}
+.g-wait{font-size:11.5px;color:var(--accent);margin-bottom:8px}
+.g-text{font-family:var(--display);font-size:15.5px;line-height:1.85;white-space:pre-line;word-break:keep-all}
+.g-foot{margin-top:14px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:12px;color:var(--muted)}
+.g-name{color:var(--ink);font-weight:500}
+.g-work{font-size:12px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.g-date{margin-left:auto}
+.g-empty{text-align:center;color:var(--muted);font-size:14px;padding:24px 0;column-span:all}
+.v-notes{margin-top:30px}
+.v-notes .v-label b{color:var(--accent);font-weight:500;margin-left:4px}
+.vn-list{display:grid;gap:10px;max-height:340px;overflow:auto;padding-right:4px}
+.vn-list blockquote{margin:0;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.vn-list p{font-family:var(--display);font-size:14.5px;line-height:1.8;white-space:pre-line;word-break:keep-all}
+.vn-list cite{display:block;margin-top:6px;font-style:normal;font-size:12px;color:var(--muted)}
+.vn-empty{font-size:13.5px;color:var(--muted)}
+.vn-write{margin-top:14px}
+.gadmin{max-width:960px;margin:32px auto 0;padding:20px 22px;border:2px solid var(--accent);border-radius:6px;background:var(--surface)}
+.ga-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+.ga-title{font-weight:600;color:var(--accent)}
+.ga-help{font-size:13px;color:var(--muted);margin:6px 0 12px}
+.ga-sub{margin:18px 0 8px;font-size:13px;color:var(--muted)}
+.gadmin ul{list-style:none;display:grid;gap:8px}
+.gadmin li{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.gadmin li.is-on{background:var(--mat)}
+.gadmin li p{font-size:14.5px;white-space:pre-line;word-break:keep-all}
+.gadmin li small{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
+.gadmin li span{display:flex;gap:6px;flex-shrink:0}
+.gadmin li button{padding:6px 12px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;background:var(--surface)}
+.gadmin li button.ok{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gadmin li.none{color:var(--muted);font-size:13px}
+@media (max-width:640px){.g-row{grid-template-columns:1fr}.gwall{columns:2 150px;column-gap:12px}.gnote{padding:16px 14px 12px;margin-bottom:12px}.g-text{font-size:14.5px}.g-date{margin-left:0}.gadmin li{flex-direction:column}}
 .lb{position:fixed;inset:0;z-index:80;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .lb[hidden]{display:none}
 .lb-body{min-height:100%;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,80px);align-items:center;padding:84px clamp(64px,6vw,96px) 56px}
@@ -392,6 +433,7 @@ body.lock .mp{transform:translate(-50%,170%)}
         <div class="tune" id="vTune" hidden></div>
         <p class="v-label" id="vNoteLabel">작가의 말</p>
         <div class="v-note" id="vNote"></div>
+        <div class="v-notes" id="vNotes"></div>
         <div class="v-actions">
           <button class="ghost" id="vPrev" type="button"></button>
           <button class="ghost" id="vNext" type="button"></button>
@@ -1011,17 +1053,23 @@ const EXTRA = {
 };
 
 /* =========================================================
-   ⑤ 온라인 방명록 「당신의 한바닥」
-   패들렛(또는 구글 설문지)을 만든 뒤, 공유 메뉴의 '임베드(퍼가기)' 주소를
-   embed 칸에 붙여 넣으면 이 자리에 방명록이 나타납니다.
-     예) embed: 'https://padlet.com/embed/abcd1234'
-   link 칸에는 새 창으로 열 주소를 넣을 수 있습니다(선택).
+   ⑤ 온라인 방명록 「당신의 한바닥」 — Firebase(Firestore) 연결
+   관람객이 남긴 글은 선생님이 확인(게시)한 뒤에 담벼락에 붙습니다.
+   선생님 관리 화면: 주소 끝에 ?admin 을 붙여 열고 구글 계정으로 로그인
    ========================================================= */
 const GUESTBOOK = {
   title: '당신의 한바닥',
   desc:  '전시장에 마련된 ‘당신의 한바닥’처럼, 이곳에도 작품을 보고 떠오른 생각과 마음을 남겨 주세요. 여러분이 남긴 한 줄이 학생 작가들에게 큰 힘이 됩니다.',
-  embed: '',
-  link:  ''
+  maxText: 200,
+  maxName: 20,
+  firebase: {
+    apiKey: "AIzaSyDjZ60Jb4E-UimrCEUMcCVrmQjf7UDeoq4",
+    authDomain: "project-766792281723761806.firebaseapp.com",
+    projectId: "project-766792281723761806",
+    storageBucket: "project-766792281723761806.firebasestorage.app",
+    messagingSenderId: "973704236787",
+    appId: "1:973704236787:web:7653ec3c794794042ff186"
+  }
 };
 
 /* ========================================================= */
@@ -1184,19 +1232,142 @@ function extraHTML(){
     </div>
   </section>`;
 }
+/* ---------- 방명록 ---------- */
+const GB = { ready:false, failed:false, notes:[], mine:[], admin:false, cooldown:60 };
+const ADMIN_MODE = /[?&]admin\b/.test(location.search);
+function lsGet(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } }
+function lsSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+GB.mine = lsGet('hanbadak-mine', []).filter(n => Date.now() - n.ts < 1000*60*60*24*30);
+const workLabel = no => { const w = WORKS.find(x => x.no === no); return w ? `No.${pad(w.no)} 「${w.title}」` : ''; };
+const noteDate = ms => { const d = new Date(ms); return `${d.getMonth()+1}월 ${d.getDate()}일`; };
+const TINTS = ['#fffdf7','#fbf3ea','#f4f1ea','#eef1ec','#f6eeee','#f1f0f5'];
+function noteCard(n, i, pending){
+  const tilt = ((n.id || '').split('').reduce((a,c) => a + c.charCodeAt(0), i) % 7 - 3) * 0.45;
+  const tint = TINTS[(n.id||'').length % TINTS.length + (i % 2)] || TINTS[0];
+  return `<article class="gnote${pending ? ' pending' : ''}" style="--tilt:${tilt}deg;--tint:${tint}">
+    ${pending ? '<p class="g-wait">선생님 확인 후 담벼락에 붙어요</p>' : ''}
+    <p class="g-text">${esc(n.text)}</p>
+    <div class="g-foot"><span class="g-name">${esc(n.name || '이름 없는 관람객')}</span>
+      ${n.work ? `<button type="button" class="g-work" data-open="${n.work}">${esc(workLabel(n.work))}</button>` : ''}
+      ${n.ms ? `<span class="g-date">${noteDate(n.ms)}</span>` : ''}</div>
+  </article>`;
+}
 function renderGuest(){
   const g = GUESTBOOK, el = $('guestbook');
-  const body = g.embed
-    ? `<div class="guest-frame"><iframe src="${esc(g.embed)}" title="${esc(g.title)} 방명록" loading="lazy" allow="camera;microphone;geolocation;display-capture;clipboard-write"></iframe></div>`
-    : `<div class="guest-frame guest-empty">${g.link ? '' : '<p>온라인 방명록을 준비하고 있습니다.</p>'}</div>`;
+  const opts = WORKS.map(w => `<option value="${w.no}">${pad(w.no)} · ${esc(w.title)} — ${esc(w.author)}</option>`).join('');
   el.innerHTML = `<header class="part-head">
       <p class="part-no">Guestbook</p>
       <h2 class="part-title">${esc(g.title)}</h2>
       <p class="part-desc">${sentences(g.desc)}</p>
     </header>
-    ${g.embed || !g.link ? body : ''}
-    ${g.link ? `<p class="guest-link"><a class="ghost" href="${esc(g.link)}" target="_blank" rel="noopener">${g.embed ? '방명록 새 창에서 열기' : '방명록 남기러 가기'} →</a></p>` : ''}`;
+    <form class="gform" id="gForm" autocomplete="off">
+      <label class="g-field g-msg"><span>하고 싶은 말</span>
+        <textarea id="gText" rows="4" maxlength="${g.maxText}" placeholder="작품을 보고 떠오른 생각, 학생 작가에게 전하고 싶은 마음을 적어 주세요." required></textarea>
+        <small class="g-count" id="gCount">0 / ${g.maxText}</small></label>
+      <div class="g-row">
+        <label class="g-field"><span>이름 <em>(선택)</em></span><input id="gName" maxlength="${g.maxName}" placeholder="비워 두면 ‘이름 없는 관람객’"></label>
+        <label class="g-field"><span>어떤 작품에 남기는 말인가요? <em>(선택)</em></span>
+          <select id="gWork"><option value="0">전시 전체에 남기기</option>${opts}</select></label>
+      </div>
+      <p class="g-help">남겨 주신 글은 선생님이 확인한 뒤 담벼락에 붙습니다. 전화번호 같은 개인정보는 적지 말아 주세요.</p>
+      <button class="g-submit" id="gSubmit" type="submit">담벼락에 붙이기</button>
+    </form>
+    <div class="gadmin" id="gAdmin" hidden></div>
+    <div class="gwall" id="gWall" aria-live="polite"></div>`;
+  $('gText').addEventListener('input', () => { $('gCount').textContent = `${$('gText').value.length} / ${g.maxText}`; });
+  $('gForm').addEventListener('submit', submitNote);
+  $('gWall').addEventListener('click', e => { const b = e.target.closest('[data-open]'); if(b) openWork(+b.dataset.open); });
+  if(ADMIN_MODE) renderAdmin();
+  renderWall();
 }
+function renderWall(){
+  const wall = $('gWall'); if(!wall) return;
+  const ids = new Set(GB.notes.map(n => n.id));
+  GB.mine = GB.mine.filter(n => !ids.has(n.id)); lsSet('hanbadak-mine', GB.mine);
+  const mine = GB.mine.slice().reverse().map((n,i) => noteCard(n, i, true)).join('');
+  const pub = GB.notes.map((n,i) => noteCard(n, i, false)).join('');
+  if(GB.failed && !mine) { wall.innerHTML = '<p class="g-empty">방명록을 불러오지 못했어요. 인터넷 연결을 확인한 뒤 새로고침해 주세요.</p>'; return; }
+  if(!GB.ready && !mine) { wall.innerHTML = '<p class="g-empty">담벼락을 불러오는 중…</p>'; return; }
+  wall.innerHTML = (mine + pub) || '<p class="g-empty">아직 담벼락이 비어 있어요. 첫 번째 한바닥을 남겨 주세요.</p>';
+  if(cur) renderWorkNotes(cur);
+}
+async function submitNote(e){
+  e.preventDefault();
+  const text = $('gText').value.trim(), name = $('gName').value.trim(), work = +$('gWork').value || 0;
+  if(!text){ $('gText').focus(); return; }
+  const last = lsGet('hanbadak-last', 0), wait = Math.ceil(GB.cooldown - (Date.now() - last)/1000);
+  if(wait > 0){ toast(`조금 뒤에 다시 남겨 주세요 (${wait}초)`); return; }
+  if(!window.HANBADAK){ toast('방명록에 연결하지 못했어요. 잠시 뒤 다시 시도해 주세요'); return; }
+  const btn = $('gSubmit'); btn.disabled = true; btn.textContent = '붙이는 중…';
+  try{
+    const id = await window.HANBADAK.add({ text: text.slice(0, GUESTBOOK.maxText), name: name.slice(0, GUESTBOOK.maxName), work });
+    GB.mine.push({ id, text, name, work, ts: Date.now() }); lsSet('hanbadak-mine', GB.mine); lsSet('hanbadak-last', Date.now());
+    $('gText').value = ''; $('gCount').textContent = `0 / ${GUESTBOOK.maxText}`;
+    toast('고마워요! 선생님 확인 후 담벼락에 붙습니다'); renderWall();
+    if(ADMIN_MODE && GB.admin) loadAdmin();
+  }catch(err){ console.warn(err); toast('글을 남기지 못했어요. 잠시 뒤 다시 시도해 주세요'); }
+  btn.disabled = false; btn.textContent = '담벼락에 붙이기';
+}
+function writeForWork(no){
+  closeViewer();
+  setTimeout(() => { const s = $('gWork'); if(s) s.value = String(no); $('guestbook').scrollIntoView({behavior:'smooth'}); setTimeout(() => $('gText') && $('gText').focus({preventScroll:true}), 700); }, 450);
+}
+function renderWorkNotes(w){
+  const el = $('vNotes'); if(!el) return;
+  const list = GB.notes.filter(n => n.work === w.no);
+  el.innerHTML = `<p class="v-label">이 작품에 남겨진 한바닥 ${list.length ? `<b>${list.length}</b>` : ''}</p>
+    ${list.length ? `<div class="vn-list">${list.slice(0, 30).map(n => `<blockquote><p>${esc(n.text)}</p><cite>${esc(n.name || '이름 없는 관람객')}${n.ms ? ' · ' + noteDate(n.ms) : ''}</cite></blockquote>`).join('')}</div>` : '<p class="vn-empty">아직 이 작품에 남겨진 글이 없어요.</p>'}
+    <button type="button" class="ghost vn-write" data-write="${w.no}">이 작품에 한바닥 남기기 →</button>`;
+}
+/* 선생님 관리 화면 (?admin) */
+function renderAdmin(){
+  const el = $('gAdmin'); el.hidden = false;
+  if(!GB.admin){
+    el.innerHTML = `<p class="ga-title">선생님 관리 화면</p><p class="ga-help">관리자 구글 계정으로 로그인하면 확인을 기다리는 글을 게시하거나 숨길 수 있어요.</p>
+      <button type="button" class="ghost" id="gaLogin">구글 계정으로 로그인</button>`;
+    $('gaLogin').onclick = async () => { try{ await window.HANBADAK.login(); }catch(err){ console.warn(err); toast('로그인하지 못했어요'); } };
+    return;
+  }
+  el.innerHTML = `<div class="ga-head"><p class="ga-title">선생님 관리 화면</p>
+      <span><button type="button" class="ghost" id="gaCsv">전체 글 내려받기(CSV)</button> <button type="button" class="ghost" id="gaOut">로그아웃</button></span></div>
+    <div id="gaList"><p class="g-empty">불러오는 중…</p></div>`;
+  $('gaOut').onclick = () => window.HANBADAK.logout();
+  $('gaCsv').onclick = downloadCsv;
+  $('gaList').onclick = async e => {
+    const b = e.target.closest('[data-act]'); if(!b) return;
+    const { act, id } = b.dataset;
+    if(act === 'del' && !confirm('이 글을 완전히 지울까요? 되돌릴 수 없어요.')) return;
+    b.disabled = true;
+    try{ await window.HANBADAK.moderate(id, act); toast(act === 'ok' ? '담벼락에 게시했어요' : act === 'hide' ? '숨겼어요' : '지웠어요'); loadAdmin(); }
+    catch(err){ console.warn(err); toast('처리하지 못했어요'); b.disabled = false; }
+  };
+  loadAdmin();
+}
+let ADMIN_ALL = [];
+async function loadAdmin(){
+  try{ ADMIN_ALL = await window.HANBADAK.all(); }
+  catch(err){ console.warn(err); $('gaList').innerHTML = '<p class="g-empty">이 계정에는 관리 권한이 없어요. 관리자 계정으로 로그인했는지 확인해 주세요.</p>'; return; }
+  const row = n => `<li class="${n.approved ? 'is-on' : ''}"><div><p>${esc(n.text)}</p>
+      <small>${esc(n.name || '이름 없는 관람객')} · ${n.work ? esc(workLabel(n.work)) + ' · ' : ''}${n.ms ? noteDate(n.ms) : ''}</small></div>
+      <span>${n.approved ? `<button type="button" data-act="hide" data-id="${n.id}">숨기기</button>` : `<button type="button" class="ok" data-act="ok" data-id="${n.id}">게시</button>`}<button type="button" data-act="del" data-id="${n.id}">삭제</button></span></li>`;
+  const wait = ADMIN_ALL.filter(n => !n.approved), on = ADMIN_ALL.filter(n => n.approved);
+  $('gaList').innerHTML = `<p class="ga-sub">확인 대기 <b>${wait.length}</b></p><ul>${wait.map(row).join('') || '<li class="none">기다리는 글이 없어요.</li>'}</ul>
+    <p class="ga-sub">게시됨 <b>${on.length}</b></p><ul>${on.map(row).join('') || '<li class="none">아직 게시한 글이 없어요.</li>'}</ul>`;
+}
+function downloadCsv(){
+  const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  const lines = [['날짜','이름','작품','내용','상태'].map(q).join(',')].concat(ADMIN_ALL.map(n =>
+    [n.ms ? new Date(n.ms).toLocaleString('ko-KR') : '', n.name || '이름 없는 관람객', n.work ? workLabel(n.work) : '전시 전체', n.text, n.approved ? '게시' : '대기'].map(q).join(',')));
+  const blob = new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = '당신의_한바닥_방명록.csv'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+/* Firebase 모듈이 준비되면 호출됩니다 */
+window.addEventListener('hanbadak-ready', () => {
+  window.HANBADAK.watch(list => { GB.ready = true; GB.failed = false; GB.notes = list; renderWall(); }, err => { console.warn(err); GB.failed = true; renderWall(); });
+  window.HANBADAK.onAuth(isAdmin => { GB.admin = isAdmin; if(ADMIN_MODE) renderAdmin(); });
+});
+window.addEventListener('hanbadak-failed', () => { GB.failed = true; renderWall(); });
 function cards(list){
   return list.map((w,i) => `
     <article class="card reveal" data-no="${w.no}" style="transition-delay:${(i%4)*70}ms">
@@ -1354,6 +1525,7 @@ function openWork(no){
   $('vTitle').textContent = w.title;
   $('vNote').textContent = (w.note||'').trim();
   $('vNoteLabel').hidden = !(w.note||'').trim();
+  renderWorkNotes(w);
   renderTune();
   $('vAuthor').textContent = `${w.grade||3}학년 ${w.cls}반 · ${w.author}${w.online ? '  ·  온라인 전시 작품' : ''}`;
   $('vPoem').innerHTML = w.lines.map(l => `<span>${l ? esc(l) : '&nbsp;'}</span>`).join('');
@@ -1392,6 +1564,7 @@ $('vListen').addEventListener('click', e => {
   if(P.w === cur && P.seg === seg) toggle();
   else { loadTrack(cur, seg); playTrack(); }
 });
+$('vNotes').addEventListener('click', e => { const b = e.target.closest('[data-write]'); if(b) writeForWork(+b.dataset.write); });
 $('vPrev').addEventListener('click', () => step(-1));
 $('vNext').addEventListener('click', () => step(1));
 $('vLink').addEventListener('click', () => {
@@ -1528,6 +1701,46 @@ function fromHash(){ const n = parseInt(location.hash.slice(1),10); if(n) openWo
 window.addEventListener('hashchange', fromHash);
 
 renderChips(); renderGrid(); renderGuest(); ui(); fromHash();
+</script>
+<script type="module">
+/* 방명록 「당신의 한바닥」 — Firebase 연결 */
+const V = '10.12.2', BASE = `https://www.gstatic.com/firebasejs/${V}/`;
+try{
+  const [{ initializeApp }, fs] = await Promise.all([import(BASE + 'firebase-app.js'), import(BASE + 'firebase-firestore.js')]);
+  const { getFirestore, collection, addDoc, serverTimestamp, query, where, limit, onSnapshot, getDocs, doc, updateDoc, deleteDoc } = fs;
+  const app = initializeApp(GUESTBOOK.firebase);
+  const db = getFirestore(app);
+  const col = collection(db, 'notes');
+  const toNote = d => { const x = d.data(); return { id: d.id, text: x.text, name: x.name, work: x.work || 0, approved: !!x.approved, ms: x.createdAt && x.createdAt.toMillis ? x.createdAt.toMillis() : 0 }; };
+  const byNew = (a, b) => b.ms - a.ms;
+  let auth = null, A = null;
+  async function authMod(){ if(!A){ A = await import(BASE + 'firebase-auth.js'); auth = A.getAuth(app); } return A; }
+  window.HANBADAK = {
+    async add({ text, name, work }){
+      const ref = await addDoc(col, { text, name, work, approved: false, createdAt: serverTimestamp() });
+      return ref.id;
+    },
+    watch(cb, onErr){
+      return onSnapshot(query(col, where('approved', '==', true), limit(300)), snap => cb(snap.docs.map(toNote).sort(byNew)), onErr);
+    },
+    async all(){ const snap = await getDocs(query(col, limit(1000))); return snap.docs.map(toNote).sort(byNew); },
+    async moderate(id, act){
+      const ref = doc(db, 'notes', id);
+      if(act === 'del') return deleteDoc(ref);
+      return updateDoc(ref, { approved: act === 'ok' });
+    },
+    async login(){ const m = await authMod(); return m.signInWithPopup(auth, new m.GoogleAuthProvider()); },
+    async logout(){ const m = await authMod(); return m.signOut(auth); },
+    async onAuth(cb){
+      if(!/[?&]admin\b/.test(location.search)) return;
+      const m = await authMod(); m.onAuthStateChanged(auth, u => cb(!!u));
+    }
+  };
+  window.dispatchEvent(new Event('hanbadak-ready'));
+}catch(err){
+  console.warn('방명록 연결 실패', err);
+  window.dispatchEvent(new Event('hanbadak-failed'));
+}
 </script>
 </body>
 </html>

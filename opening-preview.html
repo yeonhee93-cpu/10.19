@@ -487,11 +487,14 @@ html.pre-open .hero > *{opacity:0;transform:translateY(16px)}
 .i3-date .strip b{display:block;height:1em;font-weight:300}
 .s-roll .i3-date .strip{transform:translateY(calc(var(--n) * -1em))}
 .s-arrive .i3-date{text-shadow:0 0 26px rgba(255,226,196,.5),0 0 60px rgba(255,210,170,.22)}
-.i3-cap{transform:translateY(calc(clamp(52px,9.4vw,132px) * .92));font-family:var(--display);font-weight:300;font-size:clamp(14.5px,1.6vw,19px);letter-spacing:.14em;color:rgba(238,240,247,.7);opacity:0;transition:opacity 1.6s ease,letter-spacing 2.2s var(--ease)}
+.i3-cap{transform:translateY(calc(clamp(52px,9.4vw,132px) * 1.12));font-family:var(--display);font-weight:300;font-size:clamp(15px,1.7vw,20px);line-height:1.9;letter-spacing:.16em;color:rgba(238,240,247,.74);opacity:0;transition:opacity 1.6s ease,letter-spacing 2.4s var(--ease)}
+.i3-cap span{display:block;opacity:0;transform:translateY(6px);transition:opacity 1.4s ease,transform 1.6s var(--ease)}
+.i3-cap span + span{transition-delay:.55s}
+.s-arrive .i3-cap span{opacity:1;transform:none}
 .s-arrive .i3-cap{opacity:1;letter-spacing:.06em}
 .s-title .i3-date,.s-title .i3-cap{opacity:0!important;filter:blur(12px);transition:opacity 1.1s ease,filter 1.1s ease,transform 1.4s ease!important}
 .s-title .i3-date{transform:translateY(-18px) scale(.98)}
-.s-title .i3-cap{transform:translateY(calc(clamp(52px,9.4vw,132px) * .92 - 18px))}
+.s-title .i3-cap{transform:translateY(calc(clamp(52px,9.4vw,132px) * 1.12 - 18px))}
 .i3-titlebox{opacity:0}
 .s-title .i3-titlebox{opacity:1}
 .i3-eyebrow{display:flex;align-items:center;justify-content:center;gap:14px;font-size:clamp(10.5px,1.05vw,12.5px);letter-spacing:.42em;color:rgba(238,240,247,.6);opacity:0;transition:opacity 1.4s ease .15s,letter-spacing 2s var(--ease) .15s,color 2s ease}
@@ -518,8 +521,8 @@ html.pre-open .hero > *{opacity:0;transform:translateY(16px)}
   .i3-eyebrow{gap:10px;letter-spacing:.3em}
   .s-title .i3-eyebrow{letter-spacing:.18em}
   .i3-date{font-size:min(16vw,70px)}
-  .i3-cap{transform:translateY(calc(min(16vw,70px) * 1.0));padding:0 8px}
-  .s-title .i3-cap{transform:translateY(calc(min(16vw,70px) - 18px))}
+  .i3-cap{transform:translateY(calc(min(16vw,70px) * 1.25));padding:0 8px;font-size:15.5px}
+  .s-title .i3-cap{transform:translateY(calc(min(16vw,70px) * 1.25 - 18px))}
   .i3-frame .tr{display:none}
   .i3-ridges{height:22%}
 }
@@ -541,7 +544,7 @@ html.pre-open .hero > *{opacity:0;transform:translateY(16px)}
   <div class="i3-frame"><span class="tl">Byeollyang Middle School</span><span class="tr">Online Exhibition</span><span class="bl">34°57′N · 127°29′E</span></div>
   <div class="i3-stage">
     <div class="i3-date" id="i3Date"><span class="yr" id="i3Yr"></span><span class="md">.&#8202;10.&#8202;19.</span></div>
-    <p class="i3-cap">일흔여덟 해가 지난 오늘, 열다섯의 시선으로</p>
+    <p class="i3-cap"><span>오늘 나의 밑바닥엔</span><span>그날이 고여 있다.</span></p>
     <div class="i3-titlebox">
       <p class="i3-eyebrow"><span class="ln"></span><span class="tx">2026 · 순천별량중학교 3학년 시화전</span><span class="ln"></span></p>
       <h1 class="i3-title" id="inTitle">한바닥, 오래 남을 이야기</h1>
@@ -626,10 +629,10 @@ html.pre-open .hero > *{opacity:0;transform:translateY(16px)}
     at(1000, add('s-date'));
     at(1950, add('s-roll'));
     at(3550, add('s-arrive'));
-    at(4500, add('s-title'));
-    at(5200, add('s-dawn'));
-    at(5850, add('s-day'));
-    at(8500, finish);
+    at(4900, add('s-title'));
+    at(5600, add('s-dawn'));
+    at(6250, add('s-day'));
+    at(8900, finish);
   }
   if(document.fonts && document.fonts.ready){ var go = false; document.fonts.ready.then(function(){ if(!go){ go = true; start(); } }); setTimeout(function(){ if(!go){ go = true; start(); } }, 1500); } else start();
   el.addEventListener('click', finish);

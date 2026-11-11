@@ -192,6 +192,29 @@ footer{max-width:1280px;margin:0 auto;padding-block:40px;border-top:1px solid va
 [data-theme=night] .v-title{font-weight:800;letter-spacing:-.03em}
 .v-note{font-size:15.5px;line-height:1.95;word-break:keep-all;white-space:pre-line;text-align:justify;text-justify:inter-word;padding-left:18px;border-left:2px solid var(--line)}
 .v-note:empty,#vNoteLabel[hidden]{display:none}
+.listen{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 2px}
+.lbtn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;padding:7px 18px 7px 7px;border:1px solid var(--line);border-radius:999px;background:var(--surface);transition:border-color .2s,background .2s}
+.lbtn:hover:not(:disabled){border-color:var(--ink)}
+.lbtn[aria-pressed=true]{border-color:var(--ink)}
+.lbtn:disabled{opacity:.38;cursor:default}
+.lic{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;flex-shrink:0}
+.lic svg{width:14px;height:14px}
+.lbtn b{font-weight:500;font-size:14px}
+.lbtn small{margin-left:8px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.lpr{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent)}
+.zbtn{position:absolute;right:10px;bottom:10px;width:38px;height:38px;border-radius:50%;background:rgba(20,18,16,.62);color:#fff;display:grid;place-items:center;opacity:.85;transition:opacity .2s}
+.zbtn svg{width:17px;height:17px}
+.v-frame{position:relative}
+.v-frame img{cursor:zoom-in}
+.zoom{position:fixed;inset:0;z-index:85;background:#11100e}
+.zoom[hidden]{display:none}
+.z-scroll{position:absolute;inset:0;overflow:auto;display:flex;align-items:center;justify-content:center;-webkit-overflow-scrolling:touch}
+.z-scroll img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;user-select:none}
+.zoom.big .z-scroll{display:block}
+.zoom.big .z-scroll img{max-width:none;max-height:none;cursor:zoom-out}
+.zoom .v-close{position:fixed;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.z-hint{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:12.5px;background:rgba(0,0,0,.45);padding:6px 14px;border-radius:999px;pointer-events:none;white-space:nowrap}
+.lb figure img{cursor:zoom-in}
 .seg{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;margin-bottom:18px}
 .seg button{padding:8px 16px;border-radius:999px;font-size:13.5px;color:var(--muted);transition:.2s}
 .seg button small{margin-left:6px;font-size:11.5px;opacity:.7;font-variant-numeric:tabular-nums}
@@ -272,8 +295,12 @@ body.lock .mp{transform:translate(-50%,170%)}
   .v-info{display:flex;flex-direction:column}
   .v-info > *{order:2}
   .v-index,.v-no,.v-title,.v-author{order:0}
-  .listen{order:1;position:sticky;top:0;z-index:2;background:var(--bg);margin:14px -16px 0;padding:6px 64px 12px 16px;border-bottom:1px solid var(--line)}
-  .listen .v-label{margin-top:8px;margin-bottom:8px}
+  .listen{order:1;position:sticky;top:0;z-index:2;background:var(--bg);margin:16px -16px 0;padding:10px 64px 10px 16px;border-bottom:1px solid var(--line)}
+  .listen{flex-wrap:nowrap;gap:8px}
+  .lbtn{padding:5px 12px 5px 5px;gap:7px}
+  .lic{width:28px;height:28px}
+  .lbtn b{font-size:13px}
+  .lbtn small{margin-left:5px;font-size:11px}
   .listen .seg{margin-bottom:10px}
   .listen .big-play{width:52px;height:52px}
   .v-no{font-size:44px}
@@ -335,28 +362,18 @@ body.lock .mp{transform:translate(-50%,170%)}
   <button class="v-close" id="vClose" type="button" aria-label="닫기"></button>
   <div class="v-scroll">
     <div class="v-inner">
-      <div class="v-art"><div class="v-frame" id="vFrame"><img id="vArt" alt=""></div></div>
+      <div class="v-art"><div class="v-frame" id="vFrame"><img id="vArt" alt=""><button class="zbtn" id="vZoom" type="button" aria-label="작품 크게 보기"></button></div></div>
       <div class="v-info">
         <p class="v-index" id="vIndex"></p>
         <p class="v-no" id="vNo"></p>
         <h2 class="v-title" id="vTitle"></h2>
         <p class="v-author" id="vAuthor"></p>
+        <div class="listen" id="vListen" role="group" aria-label="작가의 목소리로 듣기">
+          <button class="lbtn" type="button" data-seg="poem"><span class="lic"></span><span class="ltx"><b>시 낭독</b><small id="segPoemT"></small></span><i class="lpr"></i></button>
+          <button class="lbtn" type="button" data-seg="note"><span class="lic"></span><span class="ltx"><b>작품 해설</b><small id="segNoteT"></small></span><i class="lpr"></i></button>
+        </div>
         <div class="rule"></div>
         <div class="poem" id="vPoem"></div>
-        <div class="listen" id="vListen">
-        <p class="v-label">작가의 목소리로 듣기</p>
-        <div class="seg" id="vSeg" role="group" aria-label="듣기 구간">
-          <button type="button" data-seg="poem">시 낭독<small id="segPoemT"></small></button>
-          <button type="button" data-seg="note">작품 해설<small id="segNoteT"></small></button>
-        </div>
-        <div class="controls">
-          <button class="big-play" id="vPlay" type="button" aria-label="해설 재생"></button>
-          <div>
-            <div class="track" id="vTrack"><div class="bar"><div class="fill" id="vFill"></div></div></div>
-            <div class="times"><span id="vCur">0:00</span><span id="vDur">--:--</span></div>
-          </div>
-        </div>
-        </div>
         <div class="tune" id="vTune" hidden></div>
         <p class="v-label" id="vNoteLabel">작가의 말</p>
         <div class="v-note" id="vNote"></div>
@@ -394,6 +411,11 @@ body.lock .mp{transform:translate(-50%,170%)}
     <aside class="lb-info" id="lbInfo"></aside>
   </div>
   <button class="lb-nav next" id="lbNext" type="button" aria-label="다음"></button>
+</div>
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="작품 크게 보기">
+  <div class="z-scroll" id="zScroll"><img id="zImg" alt=""></div>
+  <button class="v-close" id="zClose" type="button" aria-label="닫기"></button>
+  <p class="z-hint" id="zHint">사진을 누르면 확대돼요</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 <audio id="audio" preload="metadata"></audio>
@@ -1278,6 +1300,7 @@ function setHash(h){ try{ history.replaceState(null, '', h ? '#'+h : location.pa
 function openWork(no){
   const w = WORKS.find(x => x.no === no);
   if(!w){ toast(`${no}번 작품을 찾을 수 없어요`); return; }
+  if(P.w && P.w !== w) stopAudio();
   const first = !cur; cur = w;
   clearTimeout(hideTimer);
   const frame = $('vFrame'); frame.classList.remove('swap'); void frame.offsetWidth; frame.classList.add('swap');
@@ -1299,20 +1322,22 @@ function openWork(no){
   viewer.querySelector('.v-scroll').scrollTop = 0;
   setHash(w.no);
   ui();
-  if(first) $('vPlay').focus({preventScroll:true});
 }
 function closeViewer(){
   viewer.classList.remove('open');
   hideTimer = setTimeout(() => { viewer.hidden = true; }, 400);
   document.body.classList.remove('lock');
+  stopAudio();
   setHash(''); cur = null; ui();
 }
-function step(dir, autoplay){
-  const base = cur || P.w; if(!base) return;
-  const idx = (WORKS.indexOf(base) + dir + WORKS.length) % WORKS.length;
-  const w = WORKS[idx];
-  if(cur) openWork(w.no);
-  if(autoplay){ loadTrack(w, 'poem'); playTrack(); }
+function stopAudio(){
+  cancelAnimationFrame(P.raf); clearInterval(P.timer); audio.pause();
+  Object.assign(P, {w:null, playing:false, t:0, demo:false, pendingSeek:null});
+}
+function step(dir){
+  if(!cur) return;
+  const idx = (WORKS.indexOf(cur) + dir + WORKS.length) % WORKS.length;
+  openWork(WORKS[idx].no);
 }
 
 $('vClose').innerHTML = ICON.close;
@@ -1320,22 +1345,25 @@ $('vPrev').innerHTML = ICON.left + '이전 작품';
 $('vNext').innerHTML = '다음 작품' + ICON.right;
 $('vLink').innerHTML = ICON.link + '작품 링크 복사';
 $('vClose').addEventListener('click', closeViewer);
-$('vPlay').addEventListener('click', () => toggle(cur, P.w === cur ? P.seg : 'poem'));
-$('vSeg').addEventListener('click', e => { const b = e.target.closest('button[data-seg]'); if(!b || b.disabled || !cur) return; loadTrack(cur, b.dataset.seg); playTrack(); });
-$('vPrev').addEventListener('click', () => step(-1, P.playing));
-$('vNext').addEventListener('click', () => step(1, P.playing));
+$('vListen').addEventListener('click', e => {
+  const b = e.target.closest('button[data-seg]'); if(!b || b.disabled || !cur) return;
+  const seg = b.dataset.seg;
+  if(P.w === cur && P.seg === seg) toggle();
+  else { loadTrack(cur, seg); playTrack(); }
+});
+$('vPrev').addEventListener('click', () => step(-1));
+$('vNext').addEventListener('click', () => step(1));
 $('vLink').addEventListener('click', () => {
   const url = location.href.split('#')[0] + '#' + cur.no;
   const done = () => toast(`${pad(cur.no)}번 작품 링크를 복사했어요`);
   if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done, () => prompt('링크를 복사하세요', url));
   else prompt('링크를 복사하세요', url);
 });
-bindSeek($('vTrack'), () => cur);
 
 $('mpPrev').innerHTML = ICON.prev; $('mpNext').innerHTML = ICON.next;
 $('mpPlay').addEventListener('click', () => toggle());
-$('mpPrev').addEventListener('click', () => step(-1, true));
-$('mpNext').addEventListener('click', () => step(1, true));
+$('mpPrev').addEventListener('click', () => step(-1));
+$('mpNext').addEventListener('click', () => step(1));
 $('mpInfo').addEventListener('click', () => P.w && openWork(P.w.no));
 bindSeek($('mpTrack'), () => P.w);
 
@@ -1359,16 +1387,19 @@ function ui(){
   if(cur){
     const live = P.w === cur, seg = live ? P.seg : 'poem';
     const [s0, e0] = bounds(cur, seg);
-    $('vPlay').innerHTML = live && P.playing ? ICON.pause : ICON.play;
-    $('vPlay').setAttribute('aria-label', live && P.playing ? '일시정지' : (seg === 'note' ? '작품 해설 재생' : '시 낭독 재생'));
-    $('vFill').style.width = (live ? ratio*100 : 0) + '%';
-    $('vCur').textContent = fmt(live ? Math.max(0, P.t - s0) : 0);
-    $('vDur').textContent = (cur.audio && (SPLIT[cur.no] || (live && audio.duration))) || (live && P.demo) ? fmt(e0 - s0) : '--:--';
-    const note = hasNote(cur) && !(live && P.demo);
-    $('vSeg').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.seg === seg));
-    $('vSeg').querySelector('[data-seg=note]').disabled = !note;
-    $('segPoemT').textContent = SPLIT[cur.no] && !(live && P.demo) ? fmt(bounds(cur,'poem')[1] - bounds(cur,'poem')[0]) : '';
-    $('segNoteT').textContent = note ? fmt(bounds(cur,'note')[1] - bounds(cur,'note')[0]) : '';
+    const known = !!(cur.audio && SPLIT[cur.no]) || (live && P.demo);
+    $('vListen').querySelectorAll('.lbtn').forEach(btn => {
+      const sg = btn.dataset.seg, [a0, b0] = bounds(cur, sg);
+      const act = live && P.seg === sg, playing = act && P.playing;
+      const dis = sg === 'note' && (!hasNote(cur) || (live && P.demo));
+      btn.disabled = dis;
+      btn.setAttribute('aria-pressed', act);
+      btn.querySelector('.lic').innerHTML = playing ? ICON.pause : ICON.play;
+      btn.setAttribute('aria-label', (sg === 'note' ? '작품 해설 ' : '시 낭독 ') + (playing ? '일시정지' : '듣기'));
+      const started = act && (P.playing || P.t > a0 + .05);
+      btn.querySelector('small').textContent = dis ? '' : (!known ? '' : started ? `${fmt(Math.max(0,P.t - a0))} / ${fmt(b0 - a0)}` : fmt(b0 - a0));
+      btn.querySelector('.lpr').style.width = act && b0 > a0 ? Math.min(100, Math.max(0, (P.t - a0)/(b0 - a0)*100)) + '%' : '0';
+    });
     const on = live && seg === 'poem' && (P.playing || P.t > s0 + .05) && P.t < e0 - .05;
     viewer.classList.toggle('is-live', on);
     const idx = on ? lineAt(cur, P.t) : -1;
@@ -1407,12 +1438,38 @@ $('lbPrev').addEventListener('click', () => stepLb(-1));
 $('lbNext').addEventListener('click', () => stepLb(1));
 $('lb').addEventListener('click', e => { if(e.target === $('lb')) closeLb(); });
 
+/* ---------- 작품 크게 보기 ---------- */
+const ZOOM_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function openZoom(src, alt){
+  const z = $('zoom'); z.classList.remove('big'); $('zImg').style.width = '';
+  $('zImg').src = src; $('zImg').alt = alt || '';
+  $('zHint').textContent = '사진을 누르면 확대돼요';
+  z.hidden = false; document.body.classList.add('lock');
+}
+function closeZoom(){ $('zoom').hidden = true; if(!cur && lbIdx === null) document.body.classList.remove('lock'); }
+$('zImg').addEventListener('click', e => {
+  const z = $('zoom'), img = $('zImg'), sc = $('zScroll');
+  if(z.classList.contains('big')){ z.classList.remove('big'); img.style.width = ''; $('zHint').textContent = '사진을 누르면 확대돼요'; return; }
+  const r = img.getBoundingClientRect(), rx = (e.clientX - r.left)/r.width, ry = (e.clientY - r.top)/r.height;
+  const W = Math.max(img.naturalWidth, r.width*2.2);
+  z.classList.add('big'); img.style.width = W + 'px';
+  requestAnimationFrame(() => { sc.scrollLeft = rx*img.offsetWidth - sc.clientWidth/2; sc.scrollTop = ry*img.offsetHeight - sc.clientHeight/2; });
+  $('zHint').textContent = '밀어서 살펴보고, 다시 누르면 원래 크기로';
+});
+$('zClose').innerHTML = ICON.close;
+$('zClose').addEventListener('click', closeZoom);
+$('vZoom').innerHTML = ZOOM_ICON;
+$('vZoom').addEventListener('click', () => cur && openZoom(cur.src, cur.title));
+$('vArt').addEventListener('click', () => cur && openZoom(cur.src, cur.title));
+$('lbImg').addEventListener('click', () => openZoom($('lbImg').src, $('lbImg').alt));
+
 /* ---------- 토스트 / 키보드 / 주소 ---------- */
 let toastTimer;
 function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600); }
 
 document.addEventListener('keydown', e => {
   if(e.target.matches('input')) return;
+  if(!$('zoom').hidden){ if(e.key === 'Escape') closeZoom(); return; }
   if(lbIdx !== null){
     if(e.key === 'Escape') closeLb();
     else if(e.key === 'ArrowRight') stepLb(1);
@@ -1421,9 +1478,9 @@ document.addEventListener('keydown', e => {
   }
   if(cur){
     if(e.key === 'Escape') closeViewer();
-    else if(e.key === 'ArrowRight') step(1, P.playing);
-    else if(e.key === 'ArrowLeft') step(-1, P.playing);
-    else if(e.key === ' '){ e.preventDefault(); toggle(cur); }
+    else if(e.key === 'ArrowRight') step(1);
+    else if(e.key === 'ArrowLeft') step(-1);
+    else if(e.key === ' '){ e.preventDefault(); if(P.w === cur) toggle(); else { loadTrack(cur, 'poem'); playTrack(); } }
   } else if(e.key === ' ' && P.w){ e.preventDefault(); toggle(); }
 });
 function fromHash(){ const n = parseInt(location.hash.slice(1),10); if(n) openWork(n); else if(cur) closeViewer(); }

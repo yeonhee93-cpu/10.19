@@ -90,15 +90,19 @@ img{display:block;max-width:100%}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(36px,4.5vw,64px) clamp(20px,3vw,40px)}
 .part{padding-bottom:clamp(80px,11vw,150px)}
 .part + .part{padding-top:clamp(64px,9vw,120px);border-top:1px solid var(--line)}
-.part-head{max-width:640px;margin:0 auto clamp(44px,6vw,72px);text-align:center}
+.part-head{max-width:940px;margin:0 auto clamp(44px,6vw,72px);text-align:center}
 .part-no{font-family:var(--latin);font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
 .part-title{font-family:var(--display);font-weight:500;font-size:clamp(28px,4.2vw,46px);line-height:1.25;margin:14px 0 22px;word-break:keep-all}
 .part-desc{color:var(--muted);font-size:clamp(14.5px,1.5vw,16px);line-height:1.9;word-break:keep-all}
+.part-desc .sent{display:block;text-wrap:balance}
+.part-desc .sent + .sent{margin-top:2px}
+.nm{white-space:nowrap}
 .part-count{margin-top:22px;font-size:12px;letter-spacing:.14em;color:var(--muted)}
 .part-count::before,.part-count::after{content:'';display:inline-block;width:28px;height:1px;background:var(--line);vertical-align:middle;margin:0 12px}
 .meta .online-tag{display:inline-block;margin-top:8px;padding:2px 10px;border:1px solid var(--line);border-radius:999px;font-size:11.5px;letter-spacing:.04em;color:var(--accent)}
 .empty{text-align:center;color:var(--muted);font-size:14px;padding:32px 0}
 .sub-head{max-width:640px;margin:clamp(8px,2vw,24px) auto clamp(36px,5vw,56px);text-align:center}
+.sub-head{max-width:940px}
 .anth-head{margin-top:clamp(72px,10vw,120px)}
 .sub-title{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.8vw,30px);margin-bottom:14px;word-break:keep-all}
 .sub-credit{margin-top:12px;font-size:13px;color:var(--muted)}
@@ -107,8 +111,18 @@ img{display:block;max-width:100%}
 .anthology{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:center;max-width:900px;margin:0 auto}
 .anth-img img{max-width:100%;padding:clamp(10px,4%,18px);background:var(--mat);border-radius:var(--radius);box-shadow:var(--card-shadow);transition:transform .5s var(--ease)}
 .anth-img:hover img{transform:translateY(-4px)}
+.shop{margin-top:28px;padding:22px 24px;background:var(--surface);border:1px solid var(--line);border-radius:4px;text-align:left}
+.shop-label{font-size:12px;letter-spacing:.14em;color:var(--accent)}
+.shop-name{margin-top:6px;font-size:16px;word-break:keep-all}
+.shop-name b{font-family:var(--display);font-weight:500}
+.shop-note{margin-top:6px;font-size:13.5px;color:var(--muted);word-break:keep-all}
+.shop dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin-top:14px;font-size:14px}
+.shop dt{color:var(--muted)}
+.shop dd{word-break:keep-all}
+.shop dd a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.shop-map{margin-top:16px}
 .anth-desc{color:var(--muted);font-size:clamp(14.5px,1.5vw,16px);line-height:1.9;word-break:keep-all}
-@media (max-width:640px){.anthology{grid-template-columns:1fr;justify-items:center;text-align:center}.anth-img{max-width:240px}}
+@media (max-width:640px){.anth-text{width:100%}.anthology{grid-template-columns:1fr;justify-items:center;text-align:center}.anth-img{max-width:240px}}
 .guest{max-width:1280px;margin:0 auto;padding-block:clamp(72px,10vw,128px);border-top:1px solid var(--line)}
 .guest-frame{max-width:960px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .guest-frame iframe{display:block;width:100%;height:min(80vh,760px);border:0}
@@ -891,7 +905,7 @@ const SPLIT = {
    ========================================================= */
 const EXTRA = {
   title: '오월 걸개그림과 졸업생 시화집',
-  desc:  '3부 옆, 방명록 전시대에 함께 놓인 작품들입니다. 학생 시화와 구분하여 이곳에 따로 소개합니다.',
+  desc:  '',
   may: {
     title:  '오월 걸개그림',
     desc:   '여순 10·19의 상처가 채 아물기도 전에, 1980년 5월 광주에서 다시 무고한 시민들이 희생되었습니다. 3학년 학생들이 모둠별로 함께 그린 오월 걸개그림 10점은 치유되지 않은 채 반복되는 역사를 보여 줍니다.',
@@ -983,6 +997,14 @@ const EXTRA = {
   },
   anthology: {
     title: '졸업생 시화집 『별빛은 오랜 밤을 깨우고』',
+    shop: {
+      name: '나무들의 밤',
+      kind: '순천 독립서점',
+      note: '현재 온라인 판매는 하지 않고, 아래 서점에서만 구입하실 수 있습니다.',
+      tel:  '061-755-0204',
+      addr: '전남광주 순천시 황금2길 14-1',
+      map:  'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('나무들의 밤 순천시 황금2길 14-1')
+    },
     desc:  '『별빛은 오랜 밤을 깨우고 — 시와 그림으로 만난 여순 10·19』는 순천별량중학교 학생들이 직접 쓰고 그린 시와 그림을 엮은 시화집입니다. 오랜 세월 침묵 속에 묻혀 있던 지역의 아픔을, 학생들은 작은 별빛 같은 시 한 편 한 편으로 기억하고자 했습니다.'
   }
 };
@@ -1106,7 +1128,7 @@ function renderGrid(){
       <header class="part-head reveal">
         <p class="part-no">Part ${ROMAN[p.id]||p.id}</p>
         <h2 class="part-title" id="pt-${p.id}">${p.id}부 · ${esc(p.title)}</h2>
-        <p class="part-desc">${esc(p.desc)}</p>
+        <p class="part-desc">${sentences(p.desc)}</p>
         <p class="part-count">작품 ${list.length}점</p>
       </header>
       ${list.length ? `<div class="grid">${cards(list)}</div>` : '<p class="empty">작품을 준비하고 있습니다.</p>'}
@@ -1115,31 +1137,49 @@ function renderGrid(){
   document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
   syncCards();
 }
+function sentences(t){
+  return (t||'').split(/(?<=[.?!])\s+/).filter(Boolean).map(x => `<span class="sent">${esc(x)}</span>`).join('');
+}
+function names(t){
+  return (t||'').split('·').map(x => `<span class="nm">${esc(x.trim())}</span>`).join('<span class="dot"> · </span>');
+}
 function extraHTML(){
   const m = EXTRA.may;
   return `<section class="part extra" id="part-extra" aria-labelledby="pt-extra">
     <header class="part-head reveal">
       <p class="part-no">Special</p>
       <h2 class="part-title" id="pt-extra">특별 공간 · ${esc(EXTRA.title)}</h2>
-      <p class="part-desc">${esc(EXTRA.desc)}</p>
+      ${EXTRA.desc ? `<p class="part-desc">${sentences(EXTRA.desc)}</p>` : ''}
     </header>
     <div class="sub-head reveal">
       <h3 class="sub-title">${esc(m.title)}</h3>
-      <p class="part-desc">${esc(m.desc)}</p>
+      <p class="part-desc">${sentences(m.desc)}</p>
       <p class="part-count">작품 ${m.items.length}점</p>
     </div>
     <div class="extra-grid">${LB_ITEMS.map((it,i) => `
       <article class="card banner reveal" style="transition-delay:${(i%5)*60}ms">
         <button class="card-btn" type="button" data-lb="${i}" aria-label="${esc(it.title)} 크게 보기">
           <div class="frame"><img src="${it.src}" data-x="${it.key}" alt="${esc(it.title)}" loading="lazy"></div>
-          <div class="meta"><span class="no">May · ${pad(i+1)}</span><h3>${esc(it.title)}</h3>${it.cap ? `<p>${esc(it.cap)}</p>` : ''}</div>
+          <div class="meta"><span class="no">May · ${pad(i+1)}</span><h3>${esc(it.title)}</h3>${it.cap ? `<p>${names(it.cap)}</p>` : ''}</div>
         </button>
       </article>`).join('')}
     </div>
     <div class="sub-head reveal anth-head"><h3 class="sub-title">${esc(EXTRA.anthology.title)}</h3></div>
     <div class="anthology reveal">
       <button class="anth-img" type="button" data-lb="anth" aria-label="${esc(ANTH.title)} 크게 보기"><img src="${ANTH.src}" data-x="anthology" alt="${esc(ANTH.title)} 표지"></button>
-      <p class="anth-desc">${esc(EXTRA.anthology.desc)}</p>
+      <div class="anth-text">
+        <p class="anth-desc">${esc(EXTRA.anthology.desc)}</p>
+        ${EXTRA.anthology.shop ? (sh => `<div class="shop">
+          <p class="shop-label">구입처</p>
+          <p class="shop-name">${esc(sh.kind)} <b>「${esc(sh.name)}」</b></p>
+          <p class="shop-note">${esc(sh.note)}</p>
+          <dl>
+            <dt>주소</dt><dd>${esc(sh.addr)}</dd>
+            <dt>연락처</dt><dd><a href="tel:${sh.tel.replace(/[^0-9]/g,'')}">${esc(sh.tel)}</a></dd>
+          </dl>
+          <a class="ghost shop-map" href="${esc(sh.map)}" target="_blank" rel="noopener">지도 보기 →</a>
+        </div>`)(EXTRA.anthology.shop) : ''}
+      </div>
     </div>
   </section>`;
 }
@@ -1151,7 +1191,7 @@ function renderGuest(){
   el.innerHTML = `<header class="part-head">
       <p class="part-no">Guestbook</p>
       <h2 class="part-title">${esc(g.title)}</h2>
-      <p class="part-desc">${esc(g.desc)}</p>
+      <p class="part-desc">${sentences(g.desc)}</p>
     </header>
     ${g.embed || !g.link ? body : ''}
     ${g.link ? `<p class="guest-link"><a class="ghost" href="${esc(g.link)}" target="_blank" rel="noopener">${g.embed ? '방명록 새 창에서 열기' : '방명록 남기러 가기'} →</a></p>` : ''}`;
@@ -1423,7 +1463,7 @@ function openLb(k){
   $('lbInfo').innerHTML = `
     ${lbIdx === 'anth' ? '' : `<p class="v-index"><b>${pad(lbIdx+1)} / ${pad(LB_ITEMS.length)}</b>${esc(EXTRA.may.title)}</p>`}
     <h2 class="lb-title">${esc(it.title)}</h2>
-    ${it.cap ? `<p class="v-author">3학년 · ${esc(it.cap)}</p>` : ''}
+    ${it.cap ? `<p class="v-author">3학년 · ${names(it.cap)}</p>` : ''}
     ${it.desc ? `<div class="rule"></div><p class="v-label">작품 설명</p><p class="lb-desc">${esc(it.desc)}</p>` : ''}
     ${it.voices.length ? `<p class="v-label">함께 그린 학생들의 말</p><ul class="lb-voices">${it.voices.map(v => `<li><b>${esc(v.name)}</b><span>${esc(v.text)}</span></li>`).join('')}</ul>` : ''}`;
   $('lb').scrollTop = 0;
